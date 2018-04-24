@@ -3,6 +3,8 @@ const hbs = require('hbs');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 
+const port = process.env.port || 3000;
+
 const app = express();
 app.set('view engine', 'hbs');
 
@@ -13,7 +15,7 @@ app.use(express.static(__dirname + '/public'));
 app.use((req, res, next) => {
     var now = new Date().toString();
     var log = `${now}|${req.method}|${req.url}|${res.statusCode}`;
-    fs.appendFileSync('vistor.log', log +'\n');
+    fs.appendFileSync('visitor.log', log +'\n');
     next();
 });
 
@@ -49,6 +51,6 @@ app.get('*', (req, res) => {
     res.render('404.hbs');
 });
 
-app.listen(5000, () => {
-    console.log("Port number: 5000")
+app.listen(port, () => {
+    console.log("Port number: "+port)
 });
